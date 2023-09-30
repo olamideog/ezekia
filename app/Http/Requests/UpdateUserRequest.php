@@ -15,7 +15,7 @@ class UpdateUserRequest extends BaseRequest
     {
         parent::setup();
 
-        $this->item = $this->input('id');
+        $this->item = $this->input('id') ?? 0;
     }
 
     /**
