@@ -24,7 +24,7 @@ class ExternalDriver extends BaseDriver
 
     public function convert(Currency $baseCurrency, float $amount, Currency $exchangeCurrency): Exchange
     {
-        $response = Http::get($this->url, [
+        $response = Http::get($this->url.'/latest', [
             'access_key' => $this->apikey,
             'base' => $baseCurrency->code,
             'symbols' => $exchangeCurrency->code

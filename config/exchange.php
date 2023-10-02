@@ -16,7 +16,7 @@ return [
     ],
 
     'external' => [
-        'url' => env('EXCHANGE_DRIVER_EXTERNAL_URL', 'https://api.exchangeratesapi.io/v1/latest'),
+        'url' => env('EXCHANGE_DRIVER_EXTERNAL_URL', 'https://api.exchangeratesapi.io/v1'),
         'apikey' => env('EXCHANGE_DRIVER_EXTERNAL_APIKEY'),
     ],
 ];
