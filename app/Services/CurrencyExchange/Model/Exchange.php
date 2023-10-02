@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\CurrencyExchange\Models;
+namespace App\Services\CurrencyExchange\Model;
 
 use App\Models\Currency;
 

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Services\CurrencyExchange\DriverFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -55,5 +57,18 @@ class User extends Authenticatable
     public function currency()
     {
         return $this->belongsTo(Currency::class);
+    }
+
+    public function convertRate(Currency $exchangeCurrency)
+    {
+        if ($this->currency !== $exchangeCurrency) {
+            $converterDriver = DriverFactory::createDriver();
+
+            $conversion = $converterDriver->convert($this->currency, $this->rate, $exchangeCurrency);
+
+            $this->currency = $conversion->currency;
+
+            $this->rate = $conversion->amount;
+        }
     }
 }

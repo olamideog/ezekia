@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GetUsersRequest;
-use App\Http\Resources\EmptyResource;
 use App\Http\Resources\UserResource;
-use App\Models\EmptyModel;
+use App\Models\Currency;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,16 +15,14 @@ class GetUsersController extends Controller
      */
     public function __invoke(GetUsersRequest $request): JsonResource
     {
-        $params =
-        $users = User::where('first_name', 'like', '%'.$request->name.'%')
-            ->orWhere('last_name', 'like', '%'.$request->name.'%')
-            ->orWhere('profile', 'like', '%'.$request->search.'%')
-            ->get();
-
-        if ($users == null) {
-            return new EmptyResource(new EmptyModel('User Not Found'));
+        $currency = Currency::where('code', $request->string('currency')->trim())->first();
+        $users = User::get();
+        $result = [];
+        foreach ($users as $user) {
+            $user->convertRate($currency);
+            $result[] = $user;
         }
 
-        return UserResource::collection($users);
+        return UserResource::collection($result);
     }
 }

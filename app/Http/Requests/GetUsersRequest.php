@@ -2,13 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Currency;
-
 class GetUsersRequest extends BaseRequest
 {
-    public string $name;
+    // public string $search;
 
-    public string $search;
+    // public float $rate;
 
     public string $currency;
 
@@ -21,9 +19,9 @@ class GetUsersRequest extends BaseRequest
     {
         parent::setup();
 
-        $this->name = $this->get('name') ? trim($this->get('name')) : '';
+        // $this->rate = $this->get('rate') ? trim($this->get('rate')) : '';
 
-        $this->search = $this->get('search') ? trim($this->get('search')) : '';
+        // $this->search = $this->get('search') ? trim($this->get('search')) : '';
 
         $this->currency = $this->get('currency') ? trim($this->get('currency')) : '';
     }
@@ -36,8 +34,8 @@ class GetUsersRequest extends BaseRequest
     public function rules()
     {
         return [
-            'name' => ['sometimes', 'string', 'max:55'],
             'search' => ['sometimes', 'string', 'max:55'],
+            'rate' => ['sometimes', 'decimal:2'],
             'currency' => ['sometimes', 'exists:App\Models\Currency,code'],
         ];
     }

@@ -25,12 +25,7 @@ class CurrencyRate extends Model
         'currency_id', 'exchange_currency_id', 'rate', 'created_at', 'updated_at', 'deleted_at',
     ];
 
-    public function baseCurrency()
-    {
-        return $this->belongsTo(Currency::class);
-    }
-
-    public function rateCurrency()
+    public function exchangeCurrency()
     {
         return $this->belongsTo(Currency::class, 'exchange_currency_id');
     }

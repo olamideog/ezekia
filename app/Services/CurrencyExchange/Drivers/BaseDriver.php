@@ -3,7 +3,7 @@
 namespace App\Services\CurrencyExchange\Drivers;
 
 use App\Models\Currency;
-use App\Services\CurrencyExchange\Models\Exchange;
+use App\Services\CurrencyExchange\Model\Exchange;
 
 abstract class BaseDriver
 {

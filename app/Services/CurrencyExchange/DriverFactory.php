@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\App;
 
 class DriverFactory
 {
-    public static function createDriverByName(bool $throwIfNotFound = false)
+    public static function createDriver(bool $throwIfNotFound = false)
     {
         $allDrivers = self::getAllDrivers();
 
@@ -23,7 +23,6 @@ class DriverFactory
         }
 
         return App::make($allDrivers[$driverName]);
-
     }
 
     public static function getAllDrivers(): array

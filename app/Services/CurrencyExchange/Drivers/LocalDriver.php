@@ -3,7 +3,7 @@
 namespace App\Services\CurrencyExchange\Drivers;
 
 use App\Models\Currency;
-use App\Services\CurrencyExchange\Models\Exchange;
+use App\Services\CurrencyExchange\Model\Exchange;
 
 class LocalDriver extends BaseDriver
 {
@@ -11,10 +11,12 @@ class LocalDriver extends BaseDriver
 
     public function convert(Currency $baseCurrency, float $amount, Currency $exchangeCurrency): Exchange
     {
-        $finalCurrencyWithRate = $baseCurrency->rates()->where('exchange_currency_id', $exchangeCurrency->id)->first();
+        $currencyRate = $baseCurrency->rates()
+            ->where('exchange_currency_id', $exchangeCurrency->id)
+            ->first();
 
-        $convertedAmount = $finalCurrencyWithRate->rate * $amount;
+        $convertedAmount = $currencyRate->rate * $amount;
 
-        return new Exchange($finalCurrencyWithRate, $convertedAmount);
+        return new Exchange($currencyRate->exchangeCurrency, $convertedAmount);
     }
 }

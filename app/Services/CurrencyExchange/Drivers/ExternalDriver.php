@@ -3,7 +3,7 @@
 namespace App\Services\CurrencyExchange\Drivers;
 
 use App\Models\Currency;
-use App\Services\CurrencyExchange\Models\Exchange;
+use App\Services\CurrencyExchange\Model\Exchange;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -26,15 +26,17 @@ class ExternalDriver extends BaseDriver
     {
         $response = Http::get($this->url, [
             'access_key' => $this->apikey,
-            'from' => $baseCurrency->symbol,
-            'to' => $exchangeCurrency->symbol,
-            'amount' => $amount,
-            ]);
+            'base' => $baseCurrency->code,
+            'symbols' => $exchangeCurrency->code
+        ]);
 
         if ($response->successful()) {
-            return new Exchange($exchangeCurrency, $response->body()['result']);
+            $convertedAmount = $response->body()['rates'][$exchangeCurrency->code] * $amount;
+
+            return new Exchange($exchangeCurrency, $convertedAmount);
         } else {
             Log::error($response->body(), [__METHOD__]);
+
             return $response->throw();
         }
     }
