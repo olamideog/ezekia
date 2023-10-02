@@ -16,6 +16,7 @@ class GetUsersController extends Controller
      */
     public function __invoke(GetUsersRequest $request): JsonResource
     {
+        $params =
         $users = User::where('first_name', 'like', '%'.$request->name.'%')
             ->orWhere('last_name', 'like', '%'.$request->name.'%')
             ->orWhere('profile', 'like', '%'.$request->search.'%')

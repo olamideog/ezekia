@@ -21,10 +21,24 @@ class GetUsersRequest extends BaseRequest
     {
         parent::setup();
 
-        $this->name = $this->query('name')->trim();
+        $this->name = $this->get('name') ? trim($this->get('name')) : '';
 
-        $this->search = $this->query('search')->trim();
+        $this->search = $this->get('search') ? trim($this->get('search')) : '';
 
-        $this->currency = $this->query('currency')->trim();
+        $this->currency = $this->get('currency') ? trim($this->get('currency')) : '';
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, mixed>
+     */
+    public function rules()
+    {
+        return [
+            'name' => ['sometimes', 'string', 'max:55'],
+            'search' => ['sometimes', 'string', 'max:55'],
+            'currency' => ['sometimes', 'exists:App\Models\Currency,code'],
+        ];
     }
 }

@@ -15,7 +15,7 @@ class UpdateUserRequest extends BaseRequest
     {
         parent::setup();
 
-        $this->item = $this->input('id') ?? 0;
+        $this->item = $this->route()->parameter('id') ?? 0;
     }
 
     /**
@@ -26,12 +26,12 @@ class UpdateUserRequest extends BaseRequest
     public function rules()
     {
         return [
-            'first_name' => ['required', 'string', 'max:55'],
-            'last_name' => ['required', 'string', 'max:55'],
-            'email' => ['required', 'email'],
-            'currency' => ['required', 'exists:App\Models\Currency,code'],
-            'rate' => ['required', 'decimal:2'],
-            'profile' => ['nullable', 'string'],
+            'first_name' => ['sometimes', 'string', 'max:55'],
+            'last_name' => ['sometimes', 'string', 'max:55'],
+            'email' => ['sometimes', 'email'],
+            'currency' => ['sometimes', 'exists:App\Models\Currency,code'],
+            'rate' => ['sometimes', 'decimal:2'],
+            'profile' => ['sometimes', 'string'],
         ];
     }
 }

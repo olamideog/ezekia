@@ -24,4 +24,9 @@ class Currency extends Model
     protected $fillable = [
         'name', 'code', 'symbol', 'created_at', 'updated_at', 'deleted_at',
     ];
+
+    public function rates()
+    {
+        return $this->hasMany(CurrencyRate::class);
+    }
 }

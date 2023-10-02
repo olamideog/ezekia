@@ -15,6 +15,6 @@ class DeleteUserRequest extends BaseRequest
     {
         parent::setup();
 
-        $this->item = $this->input('id') ?? 0;
+        $this->item = $this->route()->parameter('id') ?? 0;
     }
 }

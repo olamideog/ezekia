@@ -16,7 +16,7 @@ class GetUserController extends Controller
      */
     public function __invoke(GetUserRequest $request): JsonResource
     {
-        $user = ! empty($request->item) ? User::first($request->item) : null;
+        $user = ! empty($request->item) ? User::find($request->item) : null;
 
         if ($user == null) {
             return new EmptyResource(new EmptyModel('User Not Found'));

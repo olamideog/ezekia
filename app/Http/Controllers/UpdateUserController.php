@@ -17,7 +17,7 @@ class UpdateUserController extends Controller
      */
     public function __invoke(UpdateUserRequest $request): JsonResource
     {
-        $user = ! empty($request->item) ? User::first($request->item) : null;
+        $user = ! empty($request->item) ? User::find($request->item) : null;
 
         if ($user == null) {
             return new EmptyResource(new EmptyModel('User Not Found'));
@@ -25,12 +25,12 @@ class UpdateUserController extends Controller
 
         $currency = Currency::where('code', $request->string('currency')->trim())->first();
 
-        $user['first_name'] = $request->string('first_name')->trim();
-        $user['last_name'] = $request->string('last_name')->trim();
-        $user['email'] = $request->string('email')->trim();
-        $user['currency_id'] = $currency->id;
-        $user['rate'] = $request->rate;
-        $user['profile'] = $request->string('profile')->trim();
+        $user['first_name'] = $request->has('first_name') ? $request->string('first_name')->trim() : $user->first_name;
+        $user['last_name'] = $request->has('last_name') ? $request->string('last_name')->trim() : $user->last_name;
+        $user['email'] = $request->has('email') ? $request->string('email')->trim() : $user->email;
+        $user['currency_id'] = $currency != null ? $currency->id : $user->currency_id;
+        $user['rate'] = $request->has('rate') ? $request->rate : $user->rate;
+        $user['profile'] = $request->has('profile') ? $request->string('profile')->trim() : $user->profile;
 
         $user->save();
 
